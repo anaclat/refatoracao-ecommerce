@@ -1,10 +1,7 @@
 import java.util.*;
 
 public class Pedido {
-
-    public List<String> produtos = new ArrayList<>();
-    public List<Double> precos = new ArrayList<>();
-    public List<Integer> quantidades = new ArrayList<>();
+    Carrinho carrinho;
 
     public String clienteNome;
     public String clienteEmail;
@@ -16,16 +13,15 @@ public class Pedido {
 
     private RelatorioService relatorioService = new RelatorioService();
 
-    public void adicionarItem(String nome, double preco, int qtd) {
-        produtos.add(nome);
-        precos.add(preco);
-        quantidades.add(qtd);
+    public void adicionarItem(Produto produto, int qtd) {
+        this.carrinho.adicionarItem(produto, qtd);
     }
 
     public void calcularTotal() {
         total = 0;
-        for (int i = 0; i < precos.size(); i++) {
-            total += precos.get(i) * quantidades.get(i);
+        Set<Produto> produtos = carrinho.getProdutos();
+        for (Produto p : produtos) {
+            total += carrinho.obterQuantidadeProduto(p) * p.getPreco();
         }
     }
 
@@ -46,9 +42,9 @@ public class Pedido {
     }
 
     public void atualizarEstoque() {
-        for (String p : produtos) {
-            System.out.println("Atualizando estoque de: " + p);
-        }
+        //for (String p : produtos) {
+        //    System.out.println("Atualizando estoque de: " + p);
+       // }
     }
 
     public void processarPagamento(String tipo) {

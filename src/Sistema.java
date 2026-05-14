@@ -2,14 +2,20 @@ public class Sistema {
 
     public static void main(String[] args) {
 
+        Estoque estoque = new Estoque();
         Pedido p = new Pedido();
 
         p.clienteNome = "Maria";
         p.clienteEmail = "maria@email.com";
         p.clienteEndereco = "SC";
 
-        p.adicionarItem("Notebook", 3000, 1);
-        p.adicionarItem("Mouse", 100, 2);
+        Produto notebook = new Produto("Notebook", 3000.0);
+        Produto mouse = new Produto("Mouse", 100.0);
+
+
+
+        p.adicionarItem(notebook, 1);
+        p.adicionarItem(mouse, 2);
 
         p.finalizar();
 
