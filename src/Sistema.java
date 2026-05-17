@@ -2,6 +2,7 @@ import entities.Cliente;
 import entities.Pedido;
 import entities.Produto;
 import repositories.PedidoRepositoryBanco;
+import service.RelatorioService;
 
 public class Sistema {
 
@@ -17,12 +18,12 @@ public class Sistema {
 
         p.finalizar();
 
-        //PedidoRepositoryBanco.salvarLog("Sistema finalizado");
+        PedidoRepositoryBanco.salvarLog("Sistema finalizado");
 
         RelatorioService r = new RelatorioService();
         r.gerar(p);
 
-        System.out.println("Frete: " + p.frete);
-        System.out.println("Status: " + p.status);
+        System.out.println("Frete: " + p.getFrete());
+        System.out.println("Status: " + p.getStatus());
     }
 }

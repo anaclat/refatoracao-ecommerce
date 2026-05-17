@@ -9,23 +9,32 @@ import service.NotificacaoService;
 import java.util.*;
 
 public class Pedido {
-    Carrinho carrinho;
-
-    private final PedidoRepository pedidoRepository;
+    private Carrinho carrinho;
     private Cliente cliente;
 
-    public double total;
-    public double frete;
-    public String status;
+    private double total;
+    private double frete;
+    private String status;
 
     public Pedido(Cliente cliente) {
         this.cliente = cliente;
         this.carrinho = new Carrinho();
-        this.pedidoRepository = new PedidoRepositoryBanco();
     }
 
     public Cliente getCliente() {
         return cliente;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public double getFrete() {
+        return frete;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public void adicionarItem(Produto produto, int qtd) {
@@ -62,15 +71,15 @@ public class Pedido {
         System.out.println("Total: " + total);
     }
 
-    public void salvarNoBanco() {
-        this.pedidoRepository.salvarPedido(this);
-        this.pedidoRepository.salvarLog("entities.Pedido salvo: " + cliente.getNome());
+    private void salvarNoBanco() {
+        PedidoRepositoryBanco.salvarPedido(this);
+        PedidoRepositoryBanco.salvarLog("entities.Pedido salvo: " + cliente.getNome());
     }
 
     public void finalizar() {
         calcularTotal();
         this.total = DescontoService.aplicarDesconto(this.total);
-        FreteService.calcularFrete(this.total, cliente.getEndereco());
+        this.frete = FreteService.calcularFrete(this.total, cliente.getEndereco());
         atualizarEstoque();
         processarPagamento("cartao");
         NotificacaoService.enviarNotificacao(cliente.getEmail());
