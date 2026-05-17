@@ -1,12 +1,13 @@
+package entities;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 public class Carrinho {
-    private HashMap<Produto, Integer> produtos = new HashMap<>();
+    private HashMap<Produto, Integer> produtos;
 
-    public Carrinho(HashMap<Produto, Integer> produtos) {
-        this.produtos = produtos;
+    public Carrinho() {
+        produtos = new HashMap<>();
     }
 
     public void adicionarItem(Produto produto, int qtd) {
@@ -25,7 +26,7 @@ public class Carrinho {
         return produtos.get(produto);
     }
 
-//    public double obterPrecoProduto(Produto produto){
+//    public double obterPrecoProduto(model.Produto produto){
 //        return  produtos.get(produto).
 //    }
 

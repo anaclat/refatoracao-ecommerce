@@ -1,5 +1,5 @@
 //public class Estoque {
-//    private List<Produto> produtos;
+//    private List<model.Produto> produtos;
 //    private int qtdDisponivel;
 //
 //    public Estoque() {

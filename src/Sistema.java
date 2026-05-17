@@ -1,8 +1,10 @@
+import entities.Pedido;
+import entities.Produto;
+import repositories.PedidoRepositoryBanco;
+
 public class Sistema {
 
     public static void main(String[] args) {
-
-        Estoque estoque = new Estoque();
         Pedido p = new Pedido();
 
         p.clienteNome = "Maria";
@@ -12,14 +14,12 @@ public class Sistema {
         Produto notebook = new Produto("Notebook", 3000.0);
         Produto mouse = new Produto("Mouse", 100.0);
 
-
-
         p.adicionarItem(notebook, 1);
         p.adicionarItem(mouse, 2);
 
         p.finalizar();
 
-        BancoDeDados.salvarLog("Sistema finalizado");
+        //PedidoRepositoryBanco.salvarLog("Sistema finalizado");
 
         RelatorioService r = new RelatorioService();
         r.gerar(p);

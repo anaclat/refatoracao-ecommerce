@@ -1,7 +1,17 @@
+package entities;
+
+import repositories.PedidoRepository;
+import repositories.PedidoRepositoryBanco;
+import service.DescontoService;
+import service.FreteService;
+import service.NotificacaoService;
+
 import java.util.*;
 
 public class Pedido {
     Carrinho carrinho;
+
+    private final PedidoRepository pedidoRepository;
 
     public String clienteNome;
     public String clienteEmail;
@@ -11,7 +21,10 @@ public class Pedido {
     public double frete;
     public String status;
 
-    private RelatorioService relatorioService = new RelatorioService();
+    public Pedido() {
+        this.carrinho = new Carrinho();
+        this.pedidoRepository = new PedidoRepositoryBanco();
+    }
 
     public void adicionarItem(Produto produto, int qtd) {
         this.carrinho.adicionarItem(produto, qtd);
@@ -25,22 +38,6 @@ public class Pedido {
         }
     }
 
-    public void calcularFrete() {
-        if (clienteEndereco.contains("SC")) {
-            frete = total * 0.05;
-        } else {
-            frete = total * 0.15;
-        }
-    }
-
-    public void aplicarDesconto() {
-        if (total > 500) {
-            total *= 0.85;
-        } else if (total > 200) {
-            total *= 0.9;
-        }
-    }
-
     public void atualizarEstoque() {
         //for (String p : produtos) {
         //    System.out.println("Atualizando estoque de: " + p);
@@ -48,39 +45,33 @@ public class Pedido {
     }
 
     public void processarPagamento(String tipo) {
-        if (tipo.equals("cartao")) {
-            System.out.println("Pagamento cartão OK");
-        } else if (tipo.equals("boleto")) {
-            System.out.println("Boleto gerado");
-        } else if (tipo.equals("pix")) {
-            System.out.println("PIX enviado");
+        switch (tipo) {
+            case "cartao" -> System.out.println("Pagamento cartão OK");
+            case "boleto" -> System.out.println("Boleto gerado");
+            case "pix" -> System.out.println("PIX enviado");
         }
-    }
-
-    public void enviarNotificacao() {
-        System.out.println("Email enviado para " + clienteEmail);
     }
 
     public void gerarRelatorio() {
         System.out.println("Relatorio do pedido:");
-        for (String p : produtos) {
-            System.out.println(p);
+        for (Produto p : carrinho.getProdutos()) {
+            System.out.println(p.getNome());
         }
         System.out.println("Total: " + total);
     }
 
     public void salvarNoBanco() {
-        BancoDeDados.salvarPedido(this);
-        BancoDeDados.salvarLog("Pedido salvo: " + clienteNome);
+        this.pedidoRepository.salvarPedido(this);
+        this.pedidoRepository.salvarLog("entities.Pedido salvo: " + clienteNome);
     }
 
     public void finalizar() {
         calcularTotal();
-        aplicarDesconto();
-        calcularFrete();
+        this.total = DescontoService.aplicarDesconto(this.total);
+        FreteService.calcularFrete(this.total, this.clienteEndereco);
         atualizarEstoque();
         processarPagamento("cartao");
-        enviarNotificacao();
+        NotificacaoService.enviarNotificacao(this.clienteEmail);
         gerarRelatorio();
         salvarNoBanco();
         status = "FINALIZADO";
