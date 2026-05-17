@@ -12,18 +12,20 @@ public class Pedido {
     Carrinho carrinho;
 
     private final PedidoRepository pedidoRepository;
-
-    public String clienteNome;
-    public String clienteEmail;
-    public String clienteEndereco;
+    private Cliente cliente;
 
     public double total;
     public double frete;
     public String status;
 
-    public Pedido() {
+    public Pedido(Cliente cliente) {
+        this.cliente = cliente;
         this.carrinho = new Carrinho();
         this.pedidoRepository = new PedidoRepositoryBanco();
+    }
+
+    public Cliente getCliente() {
+        return cliente;
     }
 
     public void adicionarItem(Produto produto, int qtd) {
@@ -62,16 +64,16 @@ public class Pedido {
 
     public void salvarNoBanco() {
         this.pedidoRepository.salvarPedido(this);
-        this.pedidoRepository.salvarLog("entities.Pedido salvo: " + clienteNome);
+        this.pedidoRepository.salvarLog("entities.Pedido salvo: " + cliente.getNome());
     }
 
     public void finalizar() {
         calcularTotal();
         this.total = DescontoService.aplicarDesconto(this.total);
-        FreteService.calcularFrete(this.total, this.clienteEndereco);
+        FreteService.calcularFrete(this.total, cliente.getEndereco());
         atualizarEstoque();
         processarPagamento("cartao");
-        NotificacaoService.enviarNotificacao(this.clienteEmail);
+        NotificacaoService.enviarNotificacao(cliente.getEmail());
         gerarRelatorio();
         salvarNoBanco();
         status = "FINALIZADO";

@@ -1,3 +1,4 @@
+import entities.Cliente;
 import entities.Pedido;
 import entities.Produto;
 import repositories.PedidoRepositoryBanco;
@@ -5,11 +6,8 @@ import repositories.PedidoRepositoryBanco;
 public class Sistema {
 
     public static void main(String[] args) {
-        Pedido p = new Pedido();
-
-        p.clienteNome = "Maria";
-        p.clienteEmail = "maria@email.com";
-        p.clienteEndereco = "SC";
+        Cliente cliente = new Cliente("Maria", "maria@email.com", "SC");
+        Pedido p = new Pedido(cliente);
 
         Produto notebook = new Produto("Notebook", 3000.0);
         Produto mouse = new Produto("Mouse", 100.0);
