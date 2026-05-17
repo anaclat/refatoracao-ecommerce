@@ -1,5 +1,6 @@
 package entities;
 
+import enums.Pagamentos;
 import repositories.PedidoRepository;
 import repositories.PedidoRepositoryBanco;
 import service.DescontoService;
@@ -14,6 +15,7 @@ public class Pedido {
 
     private double total;
     private double frete;
+    private Pagamentos tipoPagamento;
     private String status;
 
     public Pedido(Cliente cliente) {
@@ -24,14 +26,7 @@ public class Pedido {
     public Cliente getCliente() {
         return cliente;
     }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public double getFrete() {
-        return frete;
-    }
+    //public Carrinho getCarrinho() {return carrinho;}
 
     public String getStatus() {
         return status;
@@ -41,6 +36,18 @@ public class Pedido {
         this.carrinho.adicionarItem(produto, qtd);
     }
 
+    public double getTotal() {return total;}
+
+    public void setTotal(double total) {this.total = total;}
+
+    public void setFrete(double frete) {this.frete = frete;}
+
+    public double getFrete() {return frete;}
+
+    public void setTipoPagamento(Pagamentos tipoPagamento) {this.tipoPagamento = tipoPagamento;}
+
+    public Pagamentos getTipoPagamento() {return tipoPagamento;}
+
     public void calcularTotal() {
         total = 0;
         Set<Produto> produtos = carrinho.getProdutos();
@@ -49,42 +56,42 @@ public class Pedido {
         }
     }
 
-    public void atualizarEstoque() {
-        //for (String p : produtos) {
-        //    System.out.println("Atualizando estoque de: " + p);
-       // }
-    }
+//    public void atualizarEstoque() {
+//        //for (String p : produtos) {
+//        //    System.out.println("Atualizando estoque de: " + p);
+//       // }
+//    }
 
-    public void processarPagamento(String tipo) {
-        switch (tipo) {
-            case "cartao" -> System.out.println("Pagamento cartão OK");
-            case "boleto" -> System.out.println("Boleto gerado");
-            case "pix" -> System.out.println("PIX enviado");
-        }
-    }
+//    public void processarPagamento(String tipo) {
+//        switch (tipo) {
+//            case "cartao" -> System.out.println("Pagamento cartão OK");
+//            case "boleto" -> System.out.println("Boleto gerado");
+//            case "pix" -> System.out.println("PIX enviado");
+//        }
+//    }
 
-    public void gerarRelatorio() {
-        System.out.println("Relatorio do pedido:");
-        for (Produto p : carrinho.getProdutos()) {
-            System.out.println(p.getNome());
-        }
-        System.out.println("Total: " + total);
-    }
+//    public void gerarRelatorio() {
+//        System.out.println("Relatorio do pedido:");
+//        for (Produto p : carrinho.getProdutos()) {
+//            System.out.println(p.getNome());
+//        }
+//        System.out.println("Total: " + total);
+//    }
 
-    private void salvarNoBanco() {
-        PedidoRepositoryBanco.salvarPedido(this);
-        PedidoRepositoryBanco.salvarLog("entities.Pedido salvo: " + cliente.getNome());
-    }
-
-    public void finalizar() {
-        calcularTotal();
-        this.total = DescontoService.aplicarDesconto(this.total);
-        this.frete = FreteService.calcularFrete(this.total, cliente.getEndereco());
-        atualizarEstoque();
-        processarPagamento("cartao");
-        NotificacaoService.enviarNotificacao(cliente.getEmail());
-        gerarRelatorio();
-        salvarNoBanco();
-        status = "FINALIZADO";
-    }
+//    private void salvarNoBanco() {
+//        PedidoRepositoryBanco.salvarPedido(this);
+//        PedidoRepositoryBanco.salvarLog("entities.Pedido salvo: " + cliente.getNome());
+//    }
+//
+//    public void finalizar() {
+//        calcularTotal();
+//        this.total = DescontoService.aplicarDesconto(this.total);
+//        this.frete = FreteService.calcularFrete(this.total, cliente.getEndereco());
+//        atualizarEstoque();
+//        processarPagamento("cartao");
+//        NotificacaoService.enviarNotificacao(cliente.getEmail());
+//        //gerarRelatorio();
+//        salvarNoBanco();
+//        status = "FINALIZADO";
+//    }
 }
