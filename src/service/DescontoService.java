@@ -10,6 +10,11 @@ public class DescontoService {
             porcentagemDesconto = 0.9;
         }
 
-        return total * porcentagemDesconto;
+        if (porcentagemDesconto == 0.0) {
+            return total; // retorna o total original se nenhum desconto for aplicado
+        } else {
+
+            return total * porcentagemDesconto;
+        }
     }
 }
