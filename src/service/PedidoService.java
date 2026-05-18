@@ -23,5 +23,6 @@ public class PedidoService {
         PedidoRepositoryBanco.salvarPedido(pedido);
 
         NotificacaoService.enviarNotificacao(pedido.getCliente().getEmail());
+        pedido.setStatus("FINALIZADO");
     }
 }

@@ -26,6 +26,10 @@ public class Pedido {
         return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void adicionarItem(Produto produto, int qtd) {
         this.carrinho.adicionarItem(produto, qtd);
     }
