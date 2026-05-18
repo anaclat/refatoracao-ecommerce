@@ -1,7 +1,6 @@
 package entities;
 
 import java.util.HashMap;
-import java.util.Set;
 
 public class Carrinho {
     private HashMap<Produto, Integer> produtos;
@@ -34,8 +33,9 @@ public class Carrinho {
         return this.produtos.containsKey(produto);
     }
 
-    public Set<Produto> getProdutos() {
-        return produtos.keySet();
+    public HashMap<Produto, Integer> getProdutos() {
+        // Retorna uma copia do hashmap de produtos para garantir que a estrutura interna nao seja modificada
+        return (HashMap<Produto, Integer>) produtos.clone();
     }
 
 }

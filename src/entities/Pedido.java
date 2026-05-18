@@ -1,11 +1,6 @@
 package entities;
 
 import enums.Pagamentos;
-import repositories.PedidoRepository;
-import repositories.PedidoRepositoryBanco;
-import service.DescontoService;
-import service.FreteService;
-import service.NotificacaoService;
 
 import java.util.*;
 
@@ -26,7 +21,6 @@ public class Pedido {
     public Cliente getCliente() {
         return cliente;
     }
-    //public Carrinho getCarrinho() {return carrinho;}
 
     public String getStatus() {
         return status;
@@ -34,6 +28,10 @@ public class Pedido {
 
     public void adicionarItem(Produto produto, int qtd) {
         this.carrinho.adicionarItem(produto, qtd);
+    }
+
+    public HashMap<Produto, Integer> getProdutos() {
+        return carrinho.getProdutos();
     }
 
     public double getTotal() {return total;}
@@ -50,7 +48,7 @@ public class Pedido {
 
     public void calcularTotal() {
         total = 0;
-        Set<Produto> produtos = carrinho.getProdutos();
+        Set<Produto> produtos = carrinho.getProdutos().keySet();
         for (Produto p : produtos) {
             total += carrinho.obterQuantidadeProduto(p) * p.getPreco();
         }
@@ -70,13 +68,6 @@ public class Pedido {
 //        }
 //    }
 
-//    public void gerarRelatorio() {
-//        System.out.println("Relatorio do pedido:");
-//        for (Produto p : carrinho.getProdutos()) {
-//            System.out.println(p.getNome());
-//        }
-//        System.out.println("Total: " + total);
-//    }
 
 //    private void salvarNoBanco() {
 //        PedidoRepositoryBanco.salvarPedido(this);

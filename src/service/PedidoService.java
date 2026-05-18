@@ -1,11 +1,12 @@
 package service;
 
 import entities.Pedido;
+import enums.Pagamentos;
 import repositories.PedidoRepositoryBanco;
 
 public class PedidoService {
 
-    public void finalizarPedido(Pedido pedido) {
+    public static void finalizarPedido(Pedido pedido, Pagamentos pagamento) {
 
         pedido.calcularTotal();
 
@@ -13,9 +14,11 @@ public class PedidoService {
 
         pedido.setFrete(FreteService.calcularFrete(pedido.getTotal(), pedido.getCliente().getEndereco()));
 
+        pedido.setTipoPagamento(pagamento);
+
         PagamentoService.processarPagamento(pedido.getTipoPagamento());
 
-        //estoqueService.baixarItens(pedido);
+        EstoqueService.atualizarEstoque(pedido);
 
         PedidoRepositoryBanco.salvarPedido(pedido);
 
