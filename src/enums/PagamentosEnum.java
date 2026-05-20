@@ -1,5 +1,5 @@
 package enums;
 
-public enum Pagamentos {
+public enum PagamentosEnum {
     DINHEIRO,CARTAO,PIX, BOLETO
 }

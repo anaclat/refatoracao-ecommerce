@@ -1,12 +1,13 @@
 package service;
 
 import entities.Pedido;
-import enums.Pagamentos;
+import enums.PagamentosEnum;
+import enums.PedidoStatusEnum;
 import repositories.PedidoRepositoryBanco;
 
 public class PedidoService {
 
-    public static void finalizarPedido(Pedido pedido, Pagamentos pagamento) {
+    public static void finalizarPedido(Pedido pedido, PagamentosEnum pagamento) {
 
         pedido.calcularTotal();
 
@@ -23,6 +24,6 @@ public class PedidoService {
         PedidoRepositoryBanco.salvarPedido(pedido);
 
         NotificacaoService.enviarNotificacao(pedido.getCliente().getEmail());
-        pedido.setStatus("FINALIZADO");
+        pedido.setStatus(PedidoStatusEnum.FINALIZADO);
     }
 }

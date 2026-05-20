@@ -1,6 +1,7 @@
 package entities;
 
-import enums.Pagamentos;
+import enums.PagamentosEnum;
+import enums.PedidoStatusEnum;
 
 import java.util.*;
 
@@ -10,23 +11,24 @@ public class Pedido {
 
     private double total;
     private double frete;
-    private Pagamentos tipoPagamento;
-    private String status;
+    private PagamentosEnum tipoPagamento;
+    private PedidoStatusEnum status;
 
     public Pedido(Cliente cliente) {
         this.cliente = cliente;
         this.carrinho = new Carrinho();
+        this.status = PedidoStatusEnum.PENDENTE;
     }
 
     public Cliente getCliente() {
         return cliente;
     }
 
-    public String getStatus() {
+    public PedidoStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(PedidoStatusEnum status) {
         this.status = status;
     }
 
@@ -46,9 +48,9 @@ public class Pedido {
 
     public double getFrete() {return frete;}
 
-    public void setTipoPagamento(Pagamentos tipoPagamento) {this.tipoPagamento = tipoPagamento;}
+    public void setTipoPagamento(PagamentosEnum tipoPagamento) {this.tipoPagamento = tipoPagamento;}
 
-    public Pagamentos getTipoPagamento() {return tipoPagamento;}
+    public PagamentosEnum getTipoPagamento() {return tipoPagamento;}
 
     public void calcularTotal() {
         total = 0;

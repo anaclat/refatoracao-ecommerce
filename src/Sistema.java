@@ -1,7 +1,7 @@
 import entities.Cliente;
 import entities.Pedido;
 import entities.Produto;
-import enums.Pagamentos;
+import enums.PagamentosEnum;
 import repositories.PedidoRepositoryBanco;
 import service.PedidoService;
 import service.RelatorioService;
@@ -18,7 +18,7 @@ public class Sistema {
         p.adicionarItem(notebook, 1);
         p.adicionarItem(mouse, 2);
 
-        PedidoService.finalizarPedido(p, Pagamentos.CARTAO);
+        PedidoService.finalizarPedido(p, PagamentosEnum.CARTAO);
 
         PedidoRepositoryBanco.salvarLog("Sistema finalizado");
 

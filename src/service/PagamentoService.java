@@ -1,9 +1,9 @@
 package service;
 
-import enums.Pagamentos;
+import enums.PagamentosEnum;
 
 public class PagamentoService {
-    public static void processarPagamento(Pagamentos tipo) {
+    public static void processarPagamento(PagamentosEnum tipo) {
         switch (tipo) {
             case CARTAO -> System.out.println("Pagamento cartão OK");
             case BOLETO -> System.out.println("Boleto gerado");
